@@ -4,7 +4,8 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-from SlowCube import SlowCube
+from blocks.BaseBlock import BaseBlock
+from blocks.IBlock import IBlock
 
 
 pygame.init()
@@ -19,18 +20,27 @@ glEnable(GL_DEPTH_TEST)
 glDepthFunc(GL_LESS)
 
 glTranslate(0.0,0.0,-5)
-cube = SlowCube()
+cube = BaseBlock(scale = 0.1)
+cube_i = IBlock(scale = 0.2,color=[1,0,0])
+
+cubes = [cube_i]
 
 def Update(deltaTime):
+	global cubes
+
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			return False
-	cube.Update(deltaTime)
+	for i in cubes:
+		i.Update(deltaTime)
 	return True
 
 def Render():
+	global cubes
+
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-	cube.Render()
+	for i in cubes:
+		i.Render()
 	pygame.display.flip()
 
 clock = pygame.time.Clock()
