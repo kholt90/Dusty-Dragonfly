@@ -62,8 +62,9 @@ class BaseBlock:
 		
 
 	def Render(self):
-		m = glGetDouble(GL_MODELVIEW_MATRIX)
+		glPushMatrix()
 		glRotatef(self.ang, *self.axis)
 		self.DrawBlock()
-		glLoadMatrixf(m)
+		glPopMatrix()
+		
 		

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<UI>
+	<Group name="menu">
+		<Text x="0" y="0"
+			  width="320" height="64"
+			  justify="center" vjustify="center"
+			  id="hw">
+			<Anchor x="0.5" y="0"/>
+			<Font text="Hello World" size="64" justify="center" vjustify="center"/>
+		</Text>
+	</Group>
+</UI>
