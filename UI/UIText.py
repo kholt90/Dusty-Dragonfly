@@ -1,7 +1,5 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from OpenGL.GLUT import *
-from ctypes import c_ubyte
 import numpy as np
 import math
 
@@ -9,7 +7,7 @@ import math
 class UIText:
 	def __init__(self,text="",color=[0,0,0],pos=[0,0],anchor=[0,0]):
 		self.color = np.asfarray(color)
-		self.font = GLUT_BITMAP_HELVETICA_18
+		self.font = None
 		self.text = text
 		self.btext = text.encode('utf-8')
 
@@ -31,8 +29,8 @@ class UIText:
 
 	# You technically only need to run this when you change the text
 	def CalcDim(self):
-		self.dim[0] = glutBitmapLength(self.font, (c_ubyte * len(self.text)).from_buffer_copy(self.btext)) # Credits: https://stackoverflow.com/a/21490290
-		self.dim[1] = glutBitmapHeight(self.font)
+		self.dim[0] = None
+		self.dim[1] = None
 		if self.anchor[0] != 0 or self.anchor[1] != 0:
 			self.CalcPos()
 	# You run this when you moved the text or changed the anchor.
@@ -46,7 +44,6 @@ class UIText:
 			return
 		glColor3fv(self.color)
 		glWindowPos2f(*self.aligned_pos) # This must come after glColor3fv. Otherwise the color won't register.
-		glutBitmapString(self.font, self.btext)
 
 	def Render(self):
 		glPushMatrix()

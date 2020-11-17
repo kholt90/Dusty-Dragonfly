@@ -3,13 +3,10 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from OpenGL.GLUT import *
 
 from blocks.BaseBlock import BaseBlock
 from blocks.IBlock import IBlock
 from UI.UIText import UIText
-
-glutInit()
 
 pygame.init()
 size = width, height = 640, 480
