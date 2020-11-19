@@ -2,10 +2,13 @@ import numpy as np
 from blocks.BaseBlock import BaseBlock
 
 class IBlock(BaseBlock):
-	def __init__(self, scale = 1, color=[0,0,0]):
-		super().__init__(scale=scale,color=color)
+	def __init__(self, scale = 1, color=[0,0,0], offset=[0,0,0]):
+		super().__init__(scale=scale,color=color,offset=offset)
 
-		self.verts = np.asfarray([
+		# Nothing below works rn
+
+
+		self.vert = np.asfarray([
 			(-1, -1, -1),	# left-far-bottom
 			(1, -1, -1),	# right-far-bottom
 			(1, 1, -1),		# right-close-bottom

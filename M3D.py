@@ -12,16 +12,42 @@ pygame.init()
 size = width, height = 640, 480
 screen = pygame.display.set_mode(size, DOUBLEBUF|OPENGL)
 
-glMatrixMode(GL_PROJECTION)
-gluPerspective(45, (width/height), 0.1, 50.0)
-glMatrixMode(GL_MODELVIEW)
-glEnable(GL_DEPTH_TEST)
+# Each font size requires one call on LoadFonts. It also has to come before UIText().
+# For now, only font size 64px is needed. We can always scale it.
+UIText.LoadFonts(64)
+UIText.LoadShaders()
+
+
+
+# Available modes: 'ortho' and 'perspective'
+def SwitchMode(m = 'ortho'):
+	global width
+	global height
+
+	glMatrixMode(GL_PROJECTION)
+	glLoadIdentity() # This is needed to reset the display mode (ortho or perspective), otherwise the render will stop after 1 tick.
+	if m == 'ortho':
+		gluOrtho2D(0,width,height,0)
+	elif m == 'perspective':
+		gluPerspective(45, (width/height), 0.1, 50.0)
+	glMatrixMode(GL_MODELVIEW)
+	if m == 'ortho':
+		glDisable(GL_DEPTH_TEST)
+	elif m == 'perspective':
+		glEnable(GL_DEPTH_TEST)
+
+SwitchMode('perspective')
 glDepthFunc(GL_LESS)
+glTranslate(0.0,0.0,-5)
 
+# Note that 0,0 is the center of the world, NOT top-left
+# Also note that +ve y-pos means going UP. Like how you usually draw a graph!
 cube = BaseBlock(scale = 0.1)
-cube_i = IBlock(scale = 0.2,color=[1,0,0])
+cube_i = IBlock(scale = 0.2,color=[1,0.843,0])
+hw = UIText(text="Hello World", color=[1,1,0], pos=[0, 240], anchor=[0.5,1.0], scale=0.2)
+#ys = UIText(text="Yu sugg*@...", color=[1,0,0], pos=[0, 0], anchor=[0,0], scale=0.2)
 
-hw = UIText(text="Hello World", color=[1,1,0], pos=[width / 2, 0], anchor=[0.5,0])
+#hw.SetText("Actually no.")
 
 cubes = [cube_i]
 texts = [hw]
@@ -38,22 +64,13 @@ def Update(deltaTime):
 
 def Render():
 	global cubes
-
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-	glMatrixMode(GL_MODELVIEW)
-	glLoadIdentity()
-	glTranslate(0.0,0.0,-5)
 	for i in cubes:
 		i.Render()
-	
-	glDisable(GL_DEPTH_TEST)
+	SwitchMode('ortho')
 	for i in texts:
 		i.Render()
-	glEnable(GL_DEPTH_TEST)
-	
-	
-	
-	
+	SwitchMode('perspective')
 	
 	
 	pygame.display.flip()
@@ -66,3 +83,5 @@ while Update(_gDeltaTime):
 	t = pygame.time.get_ticks()
 	_gDeltaTime = (t - _gTickLastFrame) / 1000.0
 	_gTickLastFrame = t
+print('(Casually pushing those useless logging down...)' + "\n"*50)
+# When running self.vbo.bind, 19 lines of dict_keys appeared (at least on my side).
