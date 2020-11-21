@@ -4,6 +4,16 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
+# Fun Fact: Tetris shapes are called Tetrominos
+from Mino.Mino import Mino
+from Mino.ITetromino import ITetromino
+from Mino.OTetromino import OTetromino
+from Mino.TTetromino import TTetromino
+from Mino.STetromino import STetromino
+from Mino.ZTetromino import ZTetromino
+from Mino.LTetromino import LTetromino
+from Mino.JTetromino import JTetromino
+
 from blocks.BaseBlock import BaseBlock
 from blocks.IBlock import IBlock
 from UI.UIText import UIText
@@ -44,6 +54,16 @@ glTranslate(0.0,0.0,-5)
 # Also note that +ve y-pos means going UP. Like how you usually draw a graph!
 cube = BaseBlock(scale = 0.1)
 cube_i = IBlock(scale = 0.2,color=[1,0.843,0])
+
+Block = Mino()
+I = ITetromino()
+O = OTetromino()
+T = TTetromino()
+S = STetromino()
+Z = ZTetromino()
+L = LTetromino()
+J = JTetromino()
+
 hw = UIText(text="Hello World", color=[1,1,0], pos=[0, 240], anchor=[0.5,1.0], scale=0.2)
 #ys = UIText(text="Yu sugg*@...", color=[1,0,0], pos=[0, 0], anchor=[0,0], scale=0.2)
 
@@ -58,20 +78,38 @@ def Update(deltaTime):
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			return False
+	
 	for i in cubes:
 		i.Update(deltaTime)
+
+	I.Update(deltaTime)
+	O.Update(deltaTime)
+	T.Update(deltaTime)
+	S.Update(deltaTime)
+	Z.Update(deltaTime)
+	L.Update(deltaTime)
+	J.Update(deltaTime)
+	
 	return True
 
 def Render():
 	global cubes
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+
 	for i in cubes:
 		i.Render()
 	SwitchMode('ortho')
 	for i in texts:
 		i.Render()
 	SwitchMode('perspective')
-	
+
+	I.Render()
+	O.Render()
+	T.Render()
+	S.Render()
+	Z.Render()
+	L.Render()
+	J.Render()
 	
 	pygame.display.flip()
 
