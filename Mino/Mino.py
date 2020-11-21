@@ -64,7 +64,7 @@ class Mino:
 
     def Render(self):
         m = glGetDouble(GL_MODELVIEW_MATRIX)  # save matrix
-        glTranslatef(self.x_pos, self.y_pos, 0)
+        glTranslatef(self.x_pos, self.y_pos, -30)
         glRotatef(self.ang, self.x_axis, self.y_axis, self.z_axis)
         view = glGetDouble(GL_MODELVIEW_MATRIX)
         invT = np.linalg.inv(view).transpose()

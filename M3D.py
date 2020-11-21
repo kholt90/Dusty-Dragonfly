@@ -98,11 +98,6 @@ def Render():
 
 	for i in cubes:
 		i.Render()
-	SwitchMode('ortho')
-	for i in texts:
-		i.Render()
-	SwitchMode('perspective')
-
 	I.Render()
 	O.Render()
 	T.Render()
@@ -110,6 +105,12 @@ def Render():
 	Z.Render()
 	L.Render()
 	J.Render()
+	SwitchMode('ortho')
+	for i in texts:
+		i.Render()
+	SwitchMode('perspective')
+
+	
 	
 	pygame.display.flip()
 
