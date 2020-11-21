@@ -204,6 +204,7 @@ class UIText:
 		
 		glBindVertexArray(0)
 		glBindTexture(GL_TEXTURE_2D, 0)
+		glUseProgram(0)
 
 	def Render(self):
 		m = glGetDouble(GL_MODELVIEW_MATRIX)

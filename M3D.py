@@ -69,7 +69,7 @@ hw = UIText(text="Hello World", color=[1,1,0], pos=[0, 240], anchor=[0.5,1.0], s
 
 #hw.SetText("Actually no.")
 
-cubes = [cube_i]
+cubes = [I, O, T, S, Z, L, J]
 texts = [hw]
 
 def Update(deltaTime):
@@ -78,17 +78,8 @@ def Update(deltaTime):
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			return False
-	
 	for i in cubes:
 		i.Update(deltaTime)
-
-	I.Update(deltaTime)
-	O.Update(deltaTime)
-	T.Update(deltaTime)
-	S.Update(deltaTime)
-	Z.Update(deltaTime)
-	L.Update(deltaTime)
-	J.Update(deltaTime)
 	
 	return True
 
@@ -98,13 +89,6 @@ def Render():
 
 	for i in cubes:
 		i.Render()
-	I.Render()
-	O.Render()
-	T.Render()
-	S.Render()
-	Z.Render()
-	L.Render()
-	J.Render()
 	SwitchMode('ortho')
 	for i in texts:
 		i.Render()

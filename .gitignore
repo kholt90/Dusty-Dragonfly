@@ -1,5 +1,6 @@
 
 M3D.pyproj
+M3D.pyproj.user
 M3D.sln
 
 # Python .gitignore template
@@ -141,3 +142,7 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Visual Studio
+.vs/
+.vscode/
