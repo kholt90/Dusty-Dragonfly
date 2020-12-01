@@ -4,6 +4,9 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
+import Border
+import Gameplay
+
 # Fun Fact: Tetris shapes are called Tetrominos
 from Mino.Mino import Mino
 from Mino.ITetromino import ITetromino
@@ -19,7 +22,7 @@ from blocks.IBlock import IBlock
 from UI.UIText import UIText
 
 pygame.init()
-size = width, height = 640, 480
+size = width, height = 640, 900
 screen = pygame.display.set_mode(size, DOUBLEBUF|OPENGL)
 
 # Each font size requires one call on LoadFonts. It also has to come before UIText().
@@ -48,7 +51,9 @@ def SwitchMode(m = 'ortho'):
 
 SwitchMode('perspective')
 glDepthFunc(GL_LESS)
-glTranslate(0.0,0.0,-5)
+glTranslate(0.0,0.0,-20)
+# glRotatef(-15, 0, 1, 0)
+# glRotatef(30, 1, 0, 0)
 
 # Note that 0,0 is the center of the world, NOT top-left
 # Also note that +ve y-pos means going UP. Like how you usually draw a graph!
@@ -86,6 +91,8 @@ def Update(deltaTime):
 def Render():
 	global cubes
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+
+	Border.Render()
 
 	for i in cubes:
 		i.Render()
