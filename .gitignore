@@ -146,3 +146,6 @@ cython_debug/
 # Visual Studio
 .vs/
 .vscode/
+blocks/__pycache__/
+Mino/__pycache__/
+UI/__pycache__/

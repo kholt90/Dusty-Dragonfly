@@ -1,5 +1,7 @@
 import numpy as np
 import pygame
+import Common as CC
+import Gameplay as GG
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
@@ -83,6 +85,10 @@ def Update(deltaTime):
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			return False
+
+		if GG.ProcessEvent(event):
+			continue
+
 	for i in cubes:
 		i.Update(deltaTime)
 	
@@ -94,8 +100,9 @@ def Render():
 
 	Border.Render()
 
-	for i in cubes:
-		i.Render()
+	if not CC.Paused:
+		for i in cubes:
+			i.Render()
 	SwitchMode('ortho')
 	for i in texts:
 		i.Render()

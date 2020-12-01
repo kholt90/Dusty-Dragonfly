@@ -2,6 +2,7 @@ import math
 import numpy as np
 import random
 import pygame
+import Common as CC
 from OpenGL.GL import *
 from Mino.Mino import Mino
 
@@ -24,6 +25,11 @@ def ProcessEvent(event):
             _angles[1] += 90
         elif event.key == pygame.K_d:
             _angles[2] += 90
+        elif event.key == pygame.K_ESCAPE:
+            CC.Paused = False if CC.Paused else True
+        else:
+            return False
+    return True
 
 
 def Update(deltaTime):
