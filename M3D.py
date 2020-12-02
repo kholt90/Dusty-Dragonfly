@@ -8,7 +8,6 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-import Gameplay
 from blocks.BaseBlock import BaseBlock
 
 from UI.UIText import UIText
