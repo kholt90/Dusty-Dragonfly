@@ -4,7 +4,30 @@ import random
 import pygame
 import Common as CC
 from OpenGL.GL import *
+
+# Fun Fact: Tetris shapes are called Tetrominos
 from Mino.Mino import Mino
+from Mino.ITetromino import ITetromino
+from Mino.OTetromino import OTetromino
+from Mino.TTetromino import TTetromino
+from Mino.STetromino import STetromino
+from Mino.ZTetromino import ZTetromino
+from Mino.LTetromino import LTetromino
+from Mino.JTetromino import JTetromino
+
+I = ITetromino()
+O = OTetromino()
+T = TTetromino()
+S = STetromino()
+Z = ZTetromino()
+L = LTetromino()
+J = JTetromino()
+
+shapes = (I, O, T, S, Z, L, J)
+CC.current_shape = CC.next_shape = random.choice(shapes)
+# _current = Mino(color=_tetromino[0], offsets=_tetromino[1])
+_pos = [-1, 7, -1]
+_angles = [0, 0, 0]
 
 def ProcessEvent(event):
     global _pos
@@ -33,22 +56,20 @@ def ProcessEvent(event):
 
 
 def Update(deltaTime):
-    global _tetromino
-    global _current
+    global shapes
     global _pos
 
     _pos[1] -= 1 * deltaTime
 
     if _pos[1] <= -6:
         _pos[1] = 7
-        _tetromino = random.choice(_tetrominos)
-        _current = Mino(color=_tetromino[0], offsets=_tetromino[1])
+        CC.current_shape = CC.next_shape
+        CC.next_shape = random.choice(shapes)
 
-    _current.Update(deltaTime)
+    CC.current_shape.Update(deltaTime)
 
 
 def Render(screen):
-    global _current
     global _pos
     global _angles
 
@@ -57,5 +78,5 @@ def Render(screen):
     glRotatef(_angles[0], 1, 0, 0)
     glRotatef(_angles[1], 0, 1, 0)
     glRotatef(_angles[2], 0, 0, 1)
-    _current.Render(screen)
+    CC.current_shape.Render(screen)
     glLoadMatrixf(m)
