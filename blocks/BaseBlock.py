@@ -121,8 +121,6 @@ class BaseBlock:
 		self.ang += 50.0 * deltaTime
 
 	def DrawBlock(self):
-		global _lightVector
-
 		shaders.glUseProgram(self.shader)
 		invT = np.linalg.inv(glGetDouble(GL_MODELVIEW_MATRIX)).transpose()
 		glUniformMatrix4fv(self.uniformInvT, 1, False, invT)

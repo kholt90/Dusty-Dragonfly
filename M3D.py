@@ -2,15 +2,15 @@ import numpy as np
 import pygame
 import Common as CC
 import Gameplay as GG
+import Border
+
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-import Border
 import Gameplay
-
 from blocks.BaseBlock import BaseBlock
-from blocks.IBlock import IBlock
+
 from UI.UIText import UIText
 
 pygame.init()
@@ -50,8 +50,7 @@ glTranslate(0.0,0.0,-_zCenter)
 
 # Note that 0,0 is the center of the world, NOT top-left
 # Also note that +ve y-pos means going UP. Like how you usually draw a graph!
-cube = BaseBlock(scale = 0.2,color=[1,0.843,0])
-cube_i = IBlock(scale = 0.2,color=[1,0.843,0])
+cube = BaseBlock(scale = .5,color=[1,0.843,0]) # This works fine but...
 
 #hw = UIText(text="Hello World", color=[1,1,0], pos=[0, 240], anchor=[0.5,1.0], scale=0.2)
 #ys = UIText(text="Yu sugg*@...", color=[1,0,0], pos=[0, 0], anchor=[0,0], scale=0.2)

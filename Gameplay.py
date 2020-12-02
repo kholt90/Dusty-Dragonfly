@@ -3,7 +3,12 @@ import numpy as np
 import random
 import pygame
 import Common as CC
+
+from pygame.locals import *
 from OpenGL.GL import *
+from OpenGL.GLU import *
+
+# from blocks.BaseBlock import BaseBlock
 
 # Fun Fact: Tetris shapes are called Tetrominos
 from Mino.Mino import Mino
@@ -14,6 +19,9 @@ from Mino.STetromino import STetromino
 from Mino.ZTetromino import ZTetromino
 from Mino.LTetromino import LTetromino
 from Mino.JTetromino import JTetromino
+
+# error suggests shaders break when trying to create this cube
+# cube = BaseBlock(scale = 1,color=[1,0.843,0])
 
 I = ITetromino()
 O = OTetromino()
