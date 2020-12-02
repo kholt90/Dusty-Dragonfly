@@ -24,7 +24,8 @@ L = LTetromino()
 J = JTetromino()
 
 shapes = (I, O, T, S, Z, L, J)
-CC.current_shape = CC.next_shape = random.choice(shapes)
+CC.current_shape = random.choice(shapes)
+CC.next_shape = random.choice(shapes)
 # _current = Mino(color=_tetromino[0], offsets=_tetromino[1])
 _pos = [-1, 7, -1]
 _angles = [0, 0, 0]
