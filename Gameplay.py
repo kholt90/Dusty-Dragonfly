@@ -30,6 +30,11 @@ CC.next_shape = random.choice(shapes)
 _pos = [-1, 7, -1]
 _angles = [0, 0, 0]
 
+NextPiece = Mino()
+NextPiece.y_pos = 13
+NextPiece.scale = 0.5
+CC.next_shape_disp = NextPiece
+
 def ProcessEvent(event):
     global _pos
     global _angles

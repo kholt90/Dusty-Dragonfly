@@ -79,6 +79,8 @@ class UIText:
 			# These 2 parameters are essential for the text to show
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER)      
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER)
 
 			fdict = {
 				"bitmap": fb,
@@ -125,6 +127,7 @@ class UIText:
 		self.color = np.asfarray(color)
 		self.scale = scale
 		self.text = text
+		self.visible = True
 
 		self.pos = np.asfarray(pos) # For simplicity measures, the anchor of the text starts at the middle of the screen.
 		self.aligned_pos = self.pos # This is equivalent to running CalcPos() with [0,0] anchor
@@ -207,6 +210,7 @@ class UIText:
 		glUseProgram(0)
 
 	def Render(self):
-		m = glGetDouble(GL_MODELVIEW_MATRIX)
-		self.DrawText()
-		glLoadMatrixf(m)
+		if self.visible:
+			m = glGetDouble(GL_MODELVIEW_MATRIX)
+			self.DrawText()
+			glLoadMatrixf(m)

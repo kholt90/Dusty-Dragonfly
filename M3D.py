@@ -14,7 +14,7 @@ from blocks.IBlock import IBlock
 from UI.UIText import UIText
 
 pygame.init()
-size = width, height = 640, 900
+size = width, height = 720, 1280
 screen = pygame.display.set_mode(size, DOUBLEBUF|OPENGL)
 
 # Each font size requires one call on LoadFonts. It also has to come before UIText().
@@ -22,7 +22,7 @@ screen = pygame.display.set_mode(size, DOUBLEBUF|OPENGL)
 UIText.LoadFonts(64)
 UIText.LoadShaders()
 
-
+_zCenter = 20 # Basically distance away from camera. The z-axis origin lies here.
 
 # Available modes: 'ortho' and 'perspective'
 def SwitchMode(m = 'ortho'):
@@ -34,7 +34,8 @@ def SwitchMode(m = 'ortho'):
 	if m == 'ortho':
 		gluOrtho2D(0,width,height,0)
 	elif m == 'perspective':
-		gluPerspective(45, (width/height), 0.1, 50.0)
+		# It's just manually set value such that all shapes render but minimilized the plane distance.
+		gluPerspective(45, (width/height), _zCenter - 5, _zCenter * 3)
 	glMatrixMode(GL_MODELVIEW)
 	if m == 'ortho':
 		glDisable(GL_DEPTH_TEST)
@@ -43,7 +44,7 @@ def SwitchMode(m = 'ortho'):
 
 SwitchMode('perspective')
 glDepthFunc(GL_LESS)
-glTranslate(0.0,0.0,-20)
+glTranslate(0.0,0.0,-_zCenter)
 # glRotatef(-15, 0, 1, 0)
 # glRotatef(30, 1, 0, 0)
 
@@ -52,12 +53,12 @@ glTranslate(0.0,0.0,-20)
 cube = BaseBlock(scale = 0.2,color=[1,0.843,0])
 cube_i = IBlock(scale = 0.2,color=[1,0.843,0])
 
-hw = UIText(text="Hello World", color=[1,1,0], pos=[0, 240], anchor=[0.5,1.0], scale=0.2)
+#hw = UIText(text="Hello World", color=[1,1,0], pos=[0, 240], anchor=[0.5,1.0], scale=0.2)
 #ys = UIText(text="Yu sugg*@...", color=[1,0,0], pos=[0, 0], anchor=[0,0], scale=0.2)
-
-#hw.SetText("Actually no.")
+next_txt = UIText(text="Next Block", color=[0,1,0], pos=[0, 480], anchor=[0.5,1.0], scale=0.1)
+pause_txt = UIText(text="Pause", color=[1,0,0], pos=[0, 0], anchor=[0.5,0.5], scale=0.6)
 cubes = [cube]
-texts = [hw]
+texts = [next_txt,pause_txt]
 
 def Update(deltaTime):
 	global cubes
@@ -72,6 +73,13 @@ def Update(deltaTime):
 	for i in cubes:
 		i.Update(deltaTime)
 
+	CC.next_shape_disp.Update(deltaTime)
+	if CC.Paused:
+		texts[0].visible = False
+		texts[1].visible = True
+	else:
+		texts[0].visible = True
+		texts[1].visible = False
 	GG.Update(deltaTime)
 	
 	return True
@@ -79,12 +87,20 @@ def Update(deltaTime):
 def Render():
 	global cubes
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+	glClearColor(0.1,0.1,1,1)
 
 	Border.Render()
 
 	if not CC.Paused:
 		for i in cubes:
 			i.Render()
+
+		if CC.next_shape_disp != None:
+			CC.next_shape_disp.color = CC.next_shape.color
+			CC.next_shape_disp.vertices = CC.next_shape.vertices * CC.next_shape_disp.scale
+			CC.next_shape_disp.surfaces = CC.next_shape.surfaces
+			CC.next_shape_disp.normals = CC.next_shape.normals
+			CC.next_shape_disp.Render()
 	SwitchMode('ortho')
 	for i in texts:
 		i.Render()

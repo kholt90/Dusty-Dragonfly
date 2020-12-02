@@ -40,6 +40,8 @@ class Mino:
         self.x_pos = 0
         self.y_pos = 0
 
+        self.scale = 1 # You don't have to use it. But I do. > 1+1=2
+
     def Update(self, deltaTime):
         self.ang += 50.0 * deltaTime
 
