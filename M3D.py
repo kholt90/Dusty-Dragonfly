@@ -13,7 +13,7 @@ from blocks.BaseBlock import BaseBlock
 from UI.UIText import UIText
 
 pygame.init()
-size = width, height = 720, 1280
+size = width, height = 900, 1000
 screen = pygame.display.set_mode(size, DOUBLEBUF|OPENGL)
 
 # Each font size requires one call on LoadFonts. It also has to come before UIText().
@@ -25,7 +25,9 @@ BaseBlock.LoadShaders()
 
 GG.Init()
 
-_zCenter = 20 # Basically distance away from camera. The z-axis origin lies here.
+_xCenter = 0# Moves the camera horizontally, but currently this breaks the UI
+_yCenter = 0 # Moves the camera vertically, but currently this breaks the UI
+_zCenter = 25 # Basically distance away from camera. The z-axis origin lies here.
 
 # Available modes: 'ortho' and 'perspective'
 def SwitchMode(m = 'ortho'):
@@ -47,35 +49,31 @@ def SwitchMode(m = 'ortho'):
 
 SwitchMode('perspective')
 glDepthFunc(GL_LESS)
-glTranslate(0.0,0.0,-_zCenter)
-# glRotatef(-15, 0, 1, 0)
-# glRotatef(30, 1, 0, 0)
+glTranslate(_xCenter,_yCenter,-_zCenter)
 
 # Note that 0,0 is the center of the world, NOT top-left
 # Also note that +ve y-pos means going UP. Like how you usually draw a graph!
-cube = BaseBlock(scale = .5,color=[1,0.843,0]) # This works fine but...
+
+# cube = BaseBlock(scale = .5,color=[1,0.843,0])
+# cubes = [cube]
 
 #hw = UIText(text="Hello World", color=[1,1,0], pos=[0, 240], anchor=[0.5,1.0], scale=0.2)
 #ys = UIText(text="Yu sugg*@...", color=[1,0,0], pos=[0, 0], anchor=[0,0], scale=0.2)
-next_txt = UIText(text="Next Block", color=[0,1,0], pos=[0, 480], anchor=[0.5,1.0], scale=0.1)
+next_txt = UIText(text="Next Block:", color=[0,1,0], pos=[-100, 450], anchor=[0.5,1.0], scale=0.1)
 pause_txt = UIText(text="Pause", color=[1,0,0], pos=[0, 0], anchor=[0.5,0.5], scale=0.6)
-cubes = [cube]
 texts = [next_txt,pause_txt]
 
 def Update(deltaTime):
-	global cubes
-
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			return False
 
 		if GG.ProcessEvent(event):
 			continue
+	
+	GG.Update
 
-	for i in cubes:
-		i.Update(deltaTime)
-
-	CC.next_shape_disp.Update(deltaTime)
+	CC.next_shape_disp.Update(deltaTime, disp=True)
 	if CC.Paused:
 		texts[0].visible = False
 		texts[1].visible = True
@@ -87,15 +85,13 @@ def Update(deltaTime):
 	return True
 
 def Render():
-	global cubes
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-	glClearColor(0.1,0.1,1,1)
-
+	glClearColor(0.0,0.0,0.5,1)
+	
 	Border.Render()
 
 	if not CC.Paused:
-		for i in cubes:
-			i.Render()
+		GG.Render()
 
 		if CC.next_shape_disp != None:
 			CC.next_shape_disp.color = CC.next_shape.color

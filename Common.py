@@ -1,5 +1,7 @@
 Paused = False
 
+scale = .9
+
 next_shape = None
 current_shape = None
 

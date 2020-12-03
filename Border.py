@@ -1,7 +1,8 @@
 
-from OpenGL.GL import *
 import numpy as np
 import math
+from OpenGL.GL import *
+from Common import scale
 
 _vertices = np.asfarray( 
             ((4, -6, -4),
@@ -18,15 +19,13 @@ _lines = ((0, 1, 2, 3, 0, 4, 5, 7, 6, 4),
           (6, 3),
           (7, 2))
 
-_vertices *= 0.8 # scale down a bit
-
+_vertices *= scale # scale down a bit
 
 def Render():
     global _vertices
     global _lines
 
     m = glGetDouble(GL_MODELVIEW_MATRIX)  # save matrix
-    glTranslate(0.0,-1.5,0.0) # move border a bit down
 
     for line in _lines:
         glBegin(GL_LINES)

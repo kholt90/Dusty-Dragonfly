@@ -1,7 +1,7 @@
 
 import numpy as np
 from Mino.Mino import Mino
-
+from Common import scale
 
 class OTetromino(Mino):
     def __init__(self):
@@ -31,4 +31,4 @@ class OTetromino(Mino):
                                     (0, 1, 0),  # Top
                                     (0, -1, 0)])  # Bottom
 
-        self.x_pos = -7
+        self.vertices *= scale

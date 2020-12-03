@@ -2,9 +2,9 @@
 import math
 import numpy as np
 from OpenGL.GL import *
+import Common as CC
 
 _lightVector = np.asfarray([0, 0, 1])
-
 
 class Mino:
     def __init__(self):
@@ -39,11 +39,14 @@ class Mino:
         self.z_axis = .1
         self.x_pos = 0
         self.y_pos = 0
+        self.z_pos = 0
 
         self.scale = 1 # You don't have to use it. But I do. > 1+1=2
+        self.vertices *= CC.scale
 
-    def Update(self, deltaTime):
-        self.ang += 50.0 * deltaTime
+    def Update(self, deltaTime, disp=False):
+        if disp:
+            self.ang += 50.0 * deltaTime
 
     def DrawBlock(self, invT):
         global _lightVector
@@ -66,7 +69,7 @@ class Mino:
 
     def Render(self):
         m = glGetDouble(GL_MODELVIEW_MATRIX)  # save matrix
-        glTranslatef(self.x_pos, self.y_pos, -30)
+        glTranslatef(self.x_pos, self.y_pos, self.z_pos)
         glRotatef(self.ang, self.x_axis, self.y_axis, self.z_axis)
         view = glGetDouble(GL_MODELVIEW_MATRIX)
         invT = np.linalg.inv(view).transpose()
