@@ -30,8 +30,9 @@ self.verts component: (Vert-x, Vert-y, Vert-z, R-color, G-color, B-color, Norm-x
 """
 
 class BaseBlock:
-	def __init__(self,scale=1,color=[0,0,0],offset=[0,0,0], inherited=False):
-		self.VERTEX_SHADER = shaders.compileShader(
+	@classmethod
+	def LoadShaders(cls):
+		cls.VERTEX_SHADER = shaders.compileShader(
 			"""
 			#version 130
 			uniform mat4 invT;
@@ -47,7 +48,7 @@ class BaseBlock:
 				vertex_color = vec4(color * min(1, max(0, norm[2])), 1.0);
 			}""", GL_VERTEX_SHADER)
 
-		self.FRAGMENT_SHADER = shaders.compileShader(
+		cls.FRAGMENT_SHADER = shaders.compileShader(
 			"""
 			#version 130
 			in vec4 vertex_color;
@@ -56,7 +57,8 @@ class BaseBlock:
 				fragColor = vertex_color;
 			}""", GL_FRAGMENT_SHADER)
 
-		self.shader = shaders.compileProgram(self.VERTEX_SHADER, self.FRAGMENT_SHADER)
+	def __init__(self,scale=1,color=[0,0,0],offset=[0,0,0], inherited=False):
+		self.shader = shaders.compileProgram(BaseBlock.VERTEX_SHADER, BaseBlock.FRAGMENT_SHADER)
 		self.uniformInvT = glGetUniformLocation(self.shader, "invT")
 		self.shader_index_position = glGetAttribLocation(self.shader, "position")
 		self.shader_index_color = glGetAttribLocation(self.shader, "color")

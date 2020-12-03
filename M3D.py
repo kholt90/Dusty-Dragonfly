@@ -21,6 +21,10 @@ screen = pygame.display.set_mode(size, DOUBLEBUF|OPENGL)
 UIText.LoadFonts(64)
 UIText.LoadShaders()
 
+BaseBlock.LoadShaders()
+
+GG.Init()
+
 _zCenter = 20 # Basically distance away from camera. The z-axis origin lies here.
 
 # Available modes: 'ortho' and 'perspective'

@@ -8,7 +8,7 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-# from blocks.BaseBlock import BaseBlock
+from blocks.BaseBlock import BaseBlock
 
 # Fun Fact: Tetris shapes are called Tetrominos
 from Mino.Mino import Mino
@@ -20,28 +20,34 @@ from Mino.ZTetromino import ZTetromino
 from Mino.LTetromino import LTetromino
 from Mino.JTetromino import JTetromino
 
-# error suggests shaders break when trying to create this cube
-# cube = BaseBlock(scale = 1,color=[1,0.843,0])
-
-I = ITetromino()
-O = OTetromino()
-T = TTetromino()
-S = STetromino()
-Z = ZTetromino()
-L = LTetromino()
-J = JTetromino()
-
-shapes = (I, O, T, S, Z, L, J)
-CC.current_shape = random.choice(shapes)
-CC.next_shape = random.choice(shapes)
+cubes = []
+shapes = None
 # _current = Mino(color=_tetromino[0], offsets=_tetromino[1])
 _pos = [-1, 7, -1]
 _angles = [0, 0, 0]
 
-NextPiece = Mino()
-NextPiece.y_pos = 13
-NextPiece.scale = 0.5
-CC.next_shape_disp = NextPiece
+def Init():
+    global shapes
+    global cubes
+
+    I = ITetromino()
+    O = OTetromino()
+    T = TTetromino()
+    S = STetromino()
+    Z = ZTetromino()
+    L = LTetromino()
+    J = JTetromino()
+    shapes = (I, O, T, S, Z, L, J)
+
+    CC.current_shape = random.choice(shapes)
+    CC.next_shape = random.choice(shapes)
+
+    NextPiece = Mino()
+    NextPiece.y_pos = 13
+    NextPiece.scale = 0.5
+    CC.next_shape_disp = NextPiece
+
+    cubes.append(BaseBlock(scale = 1,color=[1,0.843,0]))
 
 def ProcessEvent(event):
     global _pos
